@@ -72,7 +72,7 @@ window.addEventListener ('DOMContentLoaded', () => {
     // ad shirt error message after the design select element
 
     messageTarget = document.querySelector ("#design");
-    addMessage (messageTarget, "shirt-message", "Select a t-shirt design", true);
+    addMessage (messageTarget, "shirt-message", "  Select a t-shirt design", true);
 
     // add activity error message at the end of the activities list
 
@@ -98,7 +98,7 @@ window.addEventListener ('DOMContentLoaded', () => {
     // add the button error message after the button
 
     messageTarget = document.querySelector ("button");
-    addMessage (messageTarget, "button-message", "Please correct all errors", true);
+    addMessage (messageTarget, "button-message", " Please correct all errors", true);
    
     // function to update the t-shirt info section
 
