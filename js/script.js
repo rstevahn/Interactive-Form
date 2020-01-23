@@ -74,7 +74,7 @@ window.addEventListener ('DOMContentLoaded', () => {
     messageTarget = document.querySelector ("#design");
     addMessage (messageTarget, "shirt-message", "  Select a t-shirt design", true);
 
-    // add activity error message at the end of the activities list
+    // add activity error message at the top of the activities list
 
     messageTarget = document.querySelector ("fieldset.activities label");
     addMessage (messageTarget, "activities-message", "Select at least one activity", false);
@@ -112,9 +112,9 @@ window.addEventListener ('DOMContentLoaded', () => {
         if (designSelect.value != "Select Theme") {
             const heartColors = ["tomato", "steelblue", "dimgrey"];
             const punColors = ["cornflowerblue", "darkslategrey", "gold"];
-            const colorList = designSelect.value === "js puns"?punColors:heartColors;
-            const colors = document.querySelectorAll ("#color option");
-            const colorSelect = document.querySelector ("#color");
+            const colorList = designSelect.value === "js puns"?punColors:heartColors; // select the correct color list
+            const colors = document.querySelectorAll ("#color option"); // the colors in the color select element
+            const colorSelect = document.querySelector ("#color"); // the color select element
 
             // display the color section
 
@@ -141,7 +141,7 @@ window.addEventListener ('DOMContentLoaded', () => {
     // function to update the activities section
 
     function updateActivities () {
-        const activities = document.querySelectorAll ("fieldset.activities input");
+        const activities = document.querySelectorAll ("fieldset.activities input"); // list of activities
         let activityCost = 0; // we will calculate the cost of all selected activities and update the display
 
         // add the cost of the main conference if that is checked
@@ -207,8 +207,9 @@ window.addEventListener ('DOMContentLoaded', () => {
                 document.querySelector ("#paypal").style.display = "none";
                 document.querySelector ("#bitcoin").style.display = "";
                 break;
+
             default: // this should never happen
-                alert ("error: no payment option detected");
+                alert ("internal error: no payment option detected");
                 break;
         }
     }
@@ -350,8 +351,8 @@ window.addEventListener ('DOMContentLoaded', () => {
     });
 
     document.querySelector ("#design").addEventListener ("change", () => {
-        validateShirtInfo();
-        updateTShirtInfo();
+        validateShirtInfo ();
+        updateTShirtInfo ();
     });
 
     document.querySelector ("fieldset.activities").addEventListener ("change", () => {
@@ -364,22 +365,22 @@ window.addEventListener ('DOMContentLoaded', () => {
     });
 
     document.querySelector ("#cc-num").addEventListener ("keyup", () => {
-        validateCreditCard();
+        validateCreditCard ();
     });
 
     document.querySelector ("#zip").addEventListener ("keyup", () => {
-        validateZipCode();
+        validateZipCode ();
     });
 
     document.querySelector ("#cvv").addEventListener ("keyup", () => {
-        validateCVV();
+        validateCVV ();
     });
 
     document.querySelector ("button").addEventListener ("click", (e) => {
         
         let failed = false;
 
-       // perform each required validation while keeping track if there was one or more failure
+       // perform each required validation while keeping track of one or more failures
 
        if (!validateName()) {
             failed = true;
@@ -404,11 +405,16 @@ window.addEventListener ('DOMContentLoaded', () => {
                 failed = true;
             } 
         }
+
+        // display error message and prevent form submission if there were any validation errors
+
         if (failed) {   
             document.querySelector (".button-message").style.display = ""; // display the message
             e.preventDefault(); // don't clear the form
         } else {
             document.querySelector (".button-message").style.display = "none"; // hide the message
         }
+
     });
+    
 });
