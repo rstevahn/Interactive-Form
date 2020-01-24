@@ -62,12 +62,14 @@ window.addEventListener ('DOMContentLoaded', () => {
     // add name error message just above the Email label
 
     messageTarget = document.querySelector ("#mail").previousElementSibling;
-    addMessage (messageTarget, "name-message", "Name cannot be blank", false);
+    addMessage (messageTarget, "name-blank-message", "Enter your name", false);
+    addMessage (messageTarget, "name-bad-message", "Use letters and spaces only", false);
 
     // add email error message just above the Job Role label
 
     messageTarget = document.querySelector ("#title").previousElementSibling;
-    addMessage (messageTarget, "email-message", "Must be valid email address", false);
+    addMessage (messageTarget, "email-blank-message", "Enter your email address", false);
+    addMessage (messageTarget, "email-bad-message", "Must be valid email address", false);
 
     // ad shirt error message after the design select element
 
@@ -82,18 +84,20 @@ window.addEventListener ('DOMContentLoaded', () => {
     // add credit card number error messages below the text entry field
 
     messageTarget = document.querySelector ("#cc-num");
-    addMessage (messageTarget, "cc-num-blank-message", "Please enter a credit card number", true);
+    addMessage (messageTarget, "cc-num-blank-message", "Enter a credit card number", true);
     addMessage (messageTarget, "cc-num-bad-message", "Must be 13 to 16 digits", true);
 
     // add zip code error message below the text entry field
 
     messageTarget = document.querySelector ("#zip");
-    addMessage (messageTarget, "zip-message", "Must be 5 digits", true);
+    addMessage (messageTarget, "zip-bad-message", "Must be 5 digits", true);
+    addMessage (messageTarget, "zip-blank-message", "Enter ZIP code", true);
 
     // add cvv error message below the text entry field
 
     messageTarget = document.querySelector ("#cvv");
-    addMessage (messageTarget, "cvv-message", "Must be 3 digits", true);
+    addMessage (messageTarget, "cvv-bad-message", "Must be 3 digits", true);
+    addMessage (messageTarget, "cvv-blank-message", "Enter CVV", true);
 
     // add the button error message after the button
 
@@ -223,17 +227,26 @@ window.addEventListener ('DOMContentLoaded', () => {
     // validation functions
 
     function validateName () {
-        const nameExp = /^\w+/; // starts with one or more alphanumeric characters
+        const nameExp = /^\D+$/; // consists of letters and white space
         const nameElement = document.querySelector ("#name");
 
+        if (nameElement.value === "") {
+            nameElement.style.border = errorBorderStyle; // display a border
+            document.querySelector (".name-bad-message").style.display = "none"; // hide this message
+            document.querySelector (".name-blank-message").style.display = "inline-block"; // display this message
+            return false;
+        }
+        
         if (!nameExp.test (nameElement.value)) {
             nameElement.style.border = errorBorderStyle; // display a border
-            document.querySelector (".name-message").style.display = "inline-block"; // display the message
+            document.querySelector (".name-blank-message").style.display = "none"; // display the message
+            document.querySelector (".name-bad-message").style.display = "inline-block"; // display the message
             return false;
         }
 
         nameElement.style.border = ""; // remove the border
-        document.querySelector (".name-message").style.display = "none"; // hide the message
+        document.querySelector (".name-blank-message").style.display = "none"; // hide the message
+        document.querySelector (".name-bad-message").style.display = "none"; // hide the message
         return true; // success!
     }
 
@@ -241,14 +254,23 @@ window.addEventListener ('DOMContentLoaded', () => {
         const emailExp = /^\w+@\w+\.\w+/; // email address like: abcd@abcde.abc
         const emailElement = document.querySelector ("#mail");
 
-        if (!emailExp.test (emailElement.value)) {
+        if (emailElement.value === "") {
             emailElement.style.border = errorBorderStyle; // display a border
-            document.querySelector (".email-message").style.display = "inline-block"; // display the message
+            document.querySelector (".email-blank-message").style.display = "inline-block"; // display the message
+            document.querySelector (".email-bad-message").style.display = "none"; // hide the message
+            return false;
+        }
+
+       if (!emailExp.test (emailElement.value)) {
+            emailElement.style.border = errorBorderStyle; // display a border
+            document.querySelector (".email-bad-message").style.display = "inline-block"; // display the message
+            document.querySelector (".email-blank-message").style.display = "none"; // hide the message
             return false;
         }
 
         emailElement.style.border = ""; // remove the border
-        document.querySelector (".email-message").style.display = "none"; // hide the message
+        document.querySelector (".email-bad-message").style.display = "none"; // hide the message
+        document.querySelector (".email-blank-message").style.display = "none"; // hide the message
         return true; // success!
     }
 
@@ -306,13 +328,20 @@ window.addEventListener ('DOMContentLoaded', () => {
         const zipExp = /^\d{5}$/;
         const zipElement = document.querySelector ("#zip");
 
-        if (zipExp.test (zipElement.value)) { // success
+        if (zipElement.value === "") { // blank
+            zipElement.style.border = errorBorderStyle;
+            document.querySelector (".zip-blank-message").style.display = "inline-block"; // display message
+            document.querySelector (".zip-bad-message").style.display = "none"; // display message
+            return false;
+        } else if (zipExp.test (zipElement.value)) { // success
             zipElement.style.border = "";
-            document.querySelector (".zip-message").style.display = "none"; // hide message
+            document.querySelector (".zip-bad-message").style.display = "none"; // hide message
+            document.querySelector (".zip-blank-message").style.display = "none"; // hide message
             return true;
          } else { // no match
             zipElement.style.border = errorBorderStyle;
-            document.querySelector (".zip-message").style.display = "inline-block"; // display message
+            document.querySelector (".zip-bad-message").style.display = "inline-block"; // display message
+            document.querySelector (".zip-blank-message").style.display = "none"; // hide message
             return false;
          }
     }
@@ -321,13 +350,20 @@ window.addEventListener ('DOMContentLoaded', () => {
         const cvvExp = /^\d{3}$/;
         const cvvElement = document.querySelector ("#cvv");
 
-        if (cvvExp.test (cvvElement.value)) { // success
+        if (cvvElement.value === "") { // blank
+            cvvElement.style.border = errorBorderStyle;
+            document.querySelector (".cvv-blank-message").style.display = "inline-block"; // display message
+            document.querySelector (".cvv-bad-message").style.display = "none"; // hide message
+            return false;
+        } else if (cvvExp.test (cvvElement.value)) { // success
             cvvElement.style.border = "";
-            document.querySelector (".cvv-message").style.display = "none"; // hide message
+            document.querySelector (".cvv-bad-message").style.display = "none"; // hide message
+            document.querySelector (".cvv-blank-message").style.display = "none"; // hide message
             return true;
          } else { // no match
             cvvElement.style.border = errorBorderStyle;
-            document.querySelector (".cvv-message").style.display = "inline-block"; // display message
+            document.querySelector (".cvv-bad-message").style.display = "inline-block"; // display message
+            document.querySelector (".cvv-blank-message").style.display = "none"; // hide message
             return false;
          }
     }
@@ -414,7 +450,5 @@ window.addEventListener ('DOMContentLoaded', () => {
         } else {
             document.querySelector (".button-message").style.display = "none"; // hide the message
         }
-
-    });
-    
+    });    
 });

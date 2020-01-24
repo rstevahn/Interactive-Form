@@ -127,13 +127,17 @@ option {
 	font-family: 'roboto', sans-serif;
 }
 
-.name-message,
-.email-message,
-.activities-message,
-.cc-num-blank-message,
+.name-bad-message,
+.email-bad-message,
 .cc-num-bad-message,
-.zip-message,
-.cvv-message {
+.zip-bad-message,
+.cvv-bad-message,
+.name-blank-message,
+.email-blank-message,
+.cc-num-blank-message,
+.zip-blank-message,
+.cvv-blank-message,
+.activities-message {
 	position: relative;
 	top: -1em;
 }
